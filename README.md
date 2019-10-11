@@ -1,5 +1,7 @@
 # Ant code snipphets
 
+- [Define Custom tags](#define-custom-tags)
+
 # target
 
 ```ant
@@ -108,4 +110,76 @@
     <mkdir dir="${log.dir}" />
     <mkdir dir="${report.dir}" />
 </target>
+```
+
+# Define Custom Tags
+
+## To upper case
+
+```ant
+<scriptdef language="javascript" name="upper">
+    <attribute name="string" />
+    <attribute name="to" />
+    project.setProperty(attributes.get("to"),attributes.get("string").toUpperCase());
+</scriptdef>
+```
+
+Usage
+
+```
+<upper string="${country.code}" to="country.code.upper"/>
+```
+
+## To lower case
+
+```ant
+<scriptdef language="javascript" name="lower">
+    <attribute name="string" />
+    <attribute name="to" />
+    project.setProperty(attributes.get("to"),attributes.get("string").toLowerCase());
+</scriptdef>
+```
+
+Usage
+
+```
+<lower string="${country.code}" to="country.code.lower"/>
+```
+
+## Decode country code to name
+
+```ant
+<scriptdef language="javascript" name="countrycodetoname">
+    <attribute name="countrycode" />
+    <attribute name="property" />
+
+    var countryCode = attributes.get("countrycode");
+    var countryMap = {
+        MY: "Malaysia",
+        AU: "Australia",
+        HK: "Hong Kong",
+        JP: "Japan",
+        KR: "Korea",
+        MM: "Myanmar",
+        TW: "Taiwan",
+        TH: "Thailand",
+        US: "United States",
+        GB: "United Kingdom",
+        VN: "Vietnam",
+        LB: "Labuan"
+    };
+    var countryName = countryCode in countryMap ? countryMap[countryCode] : null;
+
+    project.setProperty(attributes.get("property"),countryName);
+</scriptdef>
+```
+
+Usage
+
+```
+<countrycodetoname countrycode="${country.code}" property="country.name"/>
+```
+
+```ant
+<taskdef name="sqlplus" classname="net.sf.incanto.Sqlplus" classpathref="project.class.path" />
 ```
