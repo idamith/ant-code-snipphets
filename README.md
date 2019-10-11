@@ -1,4 +1,4 @@
-# ant-code-snipphets
+# Ant code snipphets
 
 # target
 
@@ -28,6 +28,16 @@
 <target/>
 ```
 
+# Use property files
+
+```ant
+<target name="setProperties">
+    <property file="build.properties" />
+    <property file="conf/another.properties" />
+    <echo>${property.name}</echo>
+</target>
+```
+
 # Make a zip file
 
 ```ant
@@ -47,7 +57,7 @@
         </fileset>
     </zip>
 </target>
-  ```
+```
 
 # Compile Java code
 
@@ -59,5 +69,43 @@
         <exclude name="**/some-dir/**" />
         <exclude name="META-INF/**" />
     </javac>
+</target>
+```
+
+# Build path
+
+```ant
+<target name="setClasspath" depends="setProperties">
+    <path id="project.class.path">
+        <pathelement path="${classes.dir}" />
+        <pathelement path="${config.app.dir}" />
+        <fileset dir="${3rdparty.dir}">
+        <include name="**/*.jar" />
+        <exclude name="**/oracle/**"/>
+        </fileset>
+            <fileset dir="${ojdbc.dir}">
+            <include name="**/*.jar" />
+        </fileset>
+    </path>
+    <property name="class.path" refid="project.class.path"/>
+    <echo>${class.path}</echo>
+</target>
+```
+
+# Timestamp
+
+```ant
+<tstamp>
+    <format property="timestamp" pattern="yyyyMMdd-HHmmss"/>
+</tstamp>
+```
+
+# Make directory
+
+```ant
+<target name="createdirs">
+    <mkdir dir="${classes.dir}" />
+    <mkdir dir="${log.dir}" />
+    <mkdir dir="${report.dir}" />
 </target>
 ```
